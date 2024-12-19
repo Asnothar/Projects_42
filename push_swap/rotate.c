@@ -6,11 +6,28 @@
 /*   By: abeaufil <abeaufil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 13:52:55 by abeaufil          #+#    #+#             */
-/*   Updated: 2024/12/19 10:45:25 by abeaufil         ###   ########.fr       */
+/*   Updated: 2024/12/19 10:58:22 by abeaufil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
+void	ft_putchar_fd(char c, int fd)
+{
+	write(fd, &c, 1);
+}
+
+void	ft_putstr_fd(char *s, int fd)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+	{
+		ft_putchar_fd(s[i], fd);
+		i++;
+	}
+}
 
 static void rotate(t_lst **stack)
 {
@@ -50,46 +67,55 @@ void	rr(t_lst **stack_a, t_lst **stack_b)
 	ft_putstr_fd("rr\n", 2);
 }
 
-// Fonction pour afficher les éléments d'une pile
-void print_stack(t_lst *stack) {
-    while (stack) {
-        printf("%d -> ", stack->content);
-        stack = stack->next;
-    }
-    printf("NULL\n");
+t_lst *new_node(int value)
+{
+    t_lst *node = (t_lst *)malloc(sizeof(t_lst));
+    node->content = value;
+    node->next = NULL;
+    return node;
 }
 
-int main() {
-    // Création de la pile A
-    t_lst *stack_a = new_node(1);
-    stack_a->next = new_node(2);
-    stack_a->next->next = new_node(3);
+// Fonction pour afficher les éléments d'une pile
+void print_stack(t_lst *stack) {
+	while (stack) {
+		printf("%d -> ", stack->content);
+		stack = stack->next;
+	}
+	printf("NULL\n");
+}
 
-    // Création de la pile B
-    t_lst *stack_b = new_node(4);
-    stack_b->next = new_node(5);
-    stack_b->next->next = new_node(6);
+int main()
+{
+	// Création de la pile A
+	t_lst *stack_a = new_node(1);
+	stack_a->next = new_node(2);
+	stack_a->next->next = new_node(3);
 
-    printf("Pile A avant rotation:\n");
-    print_stack(stack_a);
-    printf("Pile B avant rotation:\n");
-    print_stack(stack_b);
+	// Création de la pile B
+	t_lst *stack_b = new_node(4);
+	stack_b->next = new_node(5);
+	stack_b->next->next = new_node(6);
 
-    // Tester ra
-    printf("\nAppel à ra:\n");
-    ra(&stack_a);
-    print_stack(stack_a);
+	printf("Pile A avant rotation:\n");
+	print_stack(stack_a);
+	printf("Pile B avant rotation:\n");
+	print_stack(stack_b);
 
-    // Tester rb
-    printf("\nAppel à rb:\n");
-    rb(&stack_b);
-    print_stack(stack_b);
+	// Tester ra
+	printf("\nAppel à ra:\n");
+	ra(&stack_a);
+	print_stack(stack_a);
 
-    // Tester rr
-    printf("\nAppel à rr:\n");
-    rr(&stack_a, &stack_b);
-    print_stack(stack_a);
-    print_stack(stack_b);
+	// Tester rb
+	printf("\nAppel à rb:\n");
+	rb(&stack_b);
+	print_stack(stack_b);
 
-    return 0;
+	// Tester rr
+	printf("\nAppel à rr:\n");
+	rr(&stack_a, &stack_b);
+	print_stack(stack_a);
+	print_stack(stack_b);
+
+	return 0;
 }
