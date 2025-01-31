@@ -6,17 +6,33 @@
 /*   By: abeaufil <abeaufil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 14:05:13 by abeaufil          #+#    #+#             */
-/*   Updated: 2025/01/06 11:32:59 by abeaufil         ###   ########.fr       */
+/*   Updated: 2025/01/31 13:53:23 by abeaufil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "../header/push_swap.h"
 
-static void push(t_lst **src, t_lst **dest)
+static void	push(t_stacks *stacks, char to_stack)
 {
-		t_lst	*tmp;
+	t_lst	**src;
+	t_lst	**dest;
+	t_lst	*tmp;
 
-	if (*src == NULL)
+	if (to_stack == 'a')
+	{
+		src = &stacks->p_b;
+		dest = &stacks->p_a;
+		stacks->size_b--;
+		stacks->size_a++;
+	}
+	else if (to_stack == 'b')
+	{
+		src = &stacks->p_a;
+		dest = &stacks->p_b;
+		stacks->size_a--;
+		stacks->size_b++;
+	}
+	else
 		return ;
 	tmp = (*src)->next;
 	(*src)->next = *dest;
@@ -24,14 +40,14 @@ static void push(t_lst **src, t_lst **dest)
 	*src = tmp;
 }
 
-void	pa(t_lst **stack_a, t_lst **stack_b)
+void	pa(t_stacks *stacks)
 {
-	push(stack_b, stack_a);
-	ft_putstr_fd("pa\n", 2);
+	push(stacks, 'a');
+	ps_putstr_fd("pa\n", 1);
 }
 
-void	pb(t_lst **stack_a, t_lst **stack_b)
+void	pb(t_stacks *stacks)
 {
-	push(stack_a, stack_b);
-	ft_putstr_fd("pb\n", 2);
+	push(stacks, 'b');
+	ps_putstr_fd("pb\n", 1);
 }

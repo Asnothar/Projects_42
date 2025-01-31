@@ -6,42 +6,48 @@
 /*   By: abeaufil <abeaufil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 14:08:33 by abeaufil          #+#    #+#             */
-/*   Updated: 2025/01/06 11:32:02 by abeaufil         ###   ########.fr       */
+/*   Updated: 2025/01/31 13:53:07 by abeaufil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "../header/push_swap.h"
 
-static void	swap(t_lst **stack)
+static void	swap(t_stacks *stacks, char stack_name)
 {
-    t_lst *first;
-    t_lst *second;
+	t_lst	*first;
+	t_lst	*second;
+	t_lst	**stack;
 
-    if (!stack || !*stack || !(*stack)->next)
-        return;
-    first = *stack;
-    second = (*stack)->next;
-
-    first->next = second->next;
-    second->next = first;
-    *stack = second;
+	if (stack_name == 'a')
+		stack = &stacks->p_a;
+	else if (stack_name == 'b')
+		stack = &stacks->p_b;
+	else
+		return ;
+	if (!stack || !*stack || !(*stack)->next)
+		return ;
+	first = *stack;
+	second = (*stack)->next;
+	first->next = second->next;
+	second->next = first;
+	*stack = second;
 }
 
-void	sa(t_lst **stack_a)
+void	sa(t_stacks *stacks)
 {
-	swap(stack_a);
-	ft_putstr_fd("sa\n", 2);
+	swap(stacks, 'a');
+	ps_putstr_fd("sa\n", 1);
 }
 
-void	sb(t_lst **stack_b)
+void	sb(t_stacks *stacks)
 {
-	swap(stack_b);
-	ft_putstr_fd("sb\n", 2);
+	swap(stacks, 'b');
+	ps_putstr_fd("sb\n", 1);
 }
 
-void	ss(t_lst **stack_a, t_lst **stack_b)
+void	ss(t_stacks *stacks)
 {
-	swap(stack_a);
-	swap(stack_b);
-	ft_putstr_fd("ss\n", 2);
+	swap(stacks, 'a');
+	swap(stacks, 'b');
+	ps_putstr_fd("ss\n", 1);
 }

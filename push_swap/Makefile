@@ -6,7 +6,7 @@
 #    By: abeaufil <abeaufil@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/04 11:47:43 by abeaufil          #+#    #+#              #
-#    Updated: 2025/01/06 13:45:34 by abeaufil         ###   ########.fr        #
+#    Updated: 2025/01/31 14:23:01 by abeaufil         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,12 +19,16 @@ OBJ_PATH = objet/
 
 SRC		= main.c \
 		swap.c push.c rotate.c reverse_rotate.c \
-		utils.c
+		parse.c \
+		sort_small.c full_sort.c\
+		full_cost.c full_move.c full_pos.c \
+		utils.c  stack_utils.c  \
+		
 
 SRCS	= $(addprefix $(SRC_PATH), $(SRC))
 OBJ		= $(SRC:.c=.o)
 OBJS	= $(addprefix $(OBJ_PATH), $(OBJ))
-HEAD	= -I ./header/ -I ../../Cercle_1/libft/include
+HEAD	= -I ./header/
 
 
 all: $(OBJ_PATH) $(NAME)
@@ -36,16 +40,13 @@ $(OBJ_PATH):
 	mkdir -p $(OBJ_PATH)
 
 $(NAME): $(OBJS)
-	@${MAKE} -C ../../Cercle_1/libft
-	$(CC) $(CFLAGS) $(OBJS) ../../Cercle_1/libft/libft.a -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
 
 clean:
 	rm -rf $(OBJ_PATH)
-	@${MAKE} -C ../../Cercle_1/libft clean
 
 fclean: clean
 	rm -f $(NAME)
-	@${MAKE} -C ../../Cercle_1/libft fclean
 
 re: fclean all
 

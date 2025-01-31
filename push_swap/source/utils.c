@@ -6,64 +6,70 @@
 /*   By: abeaufil <abeaufil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 11:30:21 by abeaufil          #+#    #+#             */
-/*   Updated: 2025/01/06 11:34:31 by abeaufil         ###   ########.fr       */
+/*   Updated: 2025/01/31 14:24:07 by abeaufil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "../header/push_swap.h"
 
-t_lst *go_bottom(t_lst *stack)
+int	ps_isdigit(char c)
 {
-	if (!stack)
-		return (NULL);
-	while (stack->next)
-		stack = stack->next;
-	return (stack);
+	return (c >= '0' && c <= '9');
 }
 
-t_lst *go_before_bottom(t_lst *stack)
+void	ps_lstadd_back(t_lst **lst, t_lst *new_elem)
 {
-	if (!stack || !stack->next)
-		return (NULL);
-	while (stack->next && stack->next->next)
-		stack = stack->next;
-	return (stack);
-}
+	t_lst	*temp;
 
-t_lst *create_node(int value)
-{
-    t_lst *new_node = (t_lst *)malloc(sizeof(t_lst));
-    if (!new_node)
-        return NULL;
-    new_node->content = value;
-    new_node->next = NULL;
-    return new_node;
-}
-
-void print_list(t_lst *stack)
-{
-    while (stack)
-    {
-        printf("%d -> ", stack->content);
-        stack = stack->next;
-    }
-    printf("NULL\n");
-}
-
-t_lst *new_node(int value)
-{
-    t_lst *node = (t_lst *)malloc(sizeof(t_lst));
-    node->content = value;
-    node->next = NULL;
-    return node;
-}
-
-// Fonction pour afficher les éléments d'une pile
-void print_stack(t_lst *stack)
-{
-	while (stack) {
-		printf("%d -> ", stack->content);
-		stack = stack->next;
+	if (*lst == NULL)
+	{
+		*lst = new_elem;
+		return ;
 	}
-	printf("NULL\n");
+	temp = *lst;
+	while (temp->next)
+		temp = temp->next;
+	temp->next = new_elem;
+}
+
+int	ps_atoi(const char *nptr)
+{
+	long	res;
+	int		sign;
+
+	res = 0;
+	sign = 1;
+	while (*nptr == ' ' || (*nptr >= 9 && *nptr <= 13))
+		nptr++;
+	if (*nptr == '-' || *nptr == '+')
+	{
+		if (*nptr == '-')
+			sign = -1;
+		nptr++;
+	}
+	while (*nptr >= '0' && *nptr <= '9')
+	{
+		if (res > (INT_MAX - (*nptr - '0')) / 10)
+			exit_error(NULL, NULL, 1);
+		res = res * 10 + (*nptr - '0');
+		nptr++;
+	}
+	return ((int)(res * sign));
+}
+
+void	ps_putchar_fd(char c, int fd)
+{
+	write(fd, &c, 1);
+}
+
+void	ps_putstr_fd(char *s, int fd)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+	{
+		ps_putchar_fd(s[i], fd);
+		i++;
+	}
 }
