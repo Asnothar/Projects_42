@@ -6,33 +6,39 @@
 /*   By: abeaufil <abeaufil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 13:12:11 by abeaufil          #+#    #+#             */
-/*   Updated: 2025/01/31 20:57:58 by abeaufil         ###   ########.fr       */
+/*   Updated: 2025/02/06 10:14:20 by abeaufil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/push_swap.h"
 
-static int	is_number(char *av)
+static int	is_zero(const char *str)
 {
 	int	i;
-	int	len;
 
-	len = ps_strlen(av);
-	if (!av)
-		return (0);
 	i = 0;
-	if (av[i] == '+' || av[i] == '-')
+	if (str[i] == '+' || str[i] == '-')
 		i++;
-	if (av[i] == '\0')
+	while (str[i] == '0')
+		i++;
+	return (str[i] == '\0');
+}
+
+int	is_number(const char *str)
+{
+	int	i;
+
+	i = 0;
+	if (str[i] == '+' || str[i] == '-')
+		i++;
+	if (!str[i])
 		return (0);
-	while (av[i])
+	while (str[i])
 	{
-		if (!ps_isdigit(av[i]))
+		if (str[i] < '0' || str[i] > '9')
 			return (0);
 		i++;
 	}
-	if (len > 11)
-		return (0);
 	return (1);
 }
 
@@ -65,12 +71,16 @@ static int	number_compare(const char *s1, const char *s2)
 
 	i = 0;
 	j = 0;
+	if (s1[i] == '+')
+		i++;
+	if (s2[j] == '+')
+		j++;
 	while (s1[i] == '0')
 		i++;
 	while (s2[j] == '0')
 		j++;
-	if (len_compare(s1, s2) != 0)
-		return (len_compare(s1, s2));
+	if (len_compare(s1 + i, s2 + j) != 0)
+		return (len_compare(s1 + i, s2 + j));
 	while (s1[i] && s2[j])
 	{
 		if (s1[i] != s2[j])
@@ -81,35 +91,23 @@ static int	number_compare(const char *s1, const char *s2)
 	return (0);
 }
 
-static int	has_dup(char **av)
+int	has_dup(char **av)
 {
 	int	i;
 	int	j;
 
-	i = 1;
+	i = 0;
 	while (av[i])
 	{
 		j = i + 1;
 		while (av[j])
 		{
-			if (j != i && number_compare(av[i], av[j]) == 0)
+			if (number_compare(av[i], av[j]) == 0)
+				return (1);
+			if (is_zero(av[i]) && is_zero(av[j]))
 				return (1);
 			j++;
 		}
-		i++;
-	}
-	return (0);
-}
-
-int	is_correct_input(char **av)
-{
-	int	i;
-
-	i = 1;
-	while (av[i])
-	{
-		if (!is_number(av[i]) || has_dup(av))
-			return (1);
 		i++;
 	}
 	return (0);

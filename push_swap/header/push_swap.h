@@ -6,7 +6,7 @@
 /*   By: abeaufil <abeaufil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 11:56:02 by abeaufil          #+#    #+#             */
-/*   Updated: 2025/01/31 20:56:21 by abeaufil         ###   ########.fr       */
+/*   Updated: 2025/02/06 10:31:17 by abeaufil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,23 @@ typedef struct s_stacks
 }	t_stacks;
 
 //	Utils
-int			ps_isdigit(char c);
-void		ps_lstadd_back(t_lst **lst, t_lst *new);
-int			ps_atoi(const char *nptr);
-void		ps_putstr_fd(char *s, int fd);
+t_lst		*go_before_bottom(t_lst *pile);
+void		find_min_position(t_stacks *stacks, int *min_value, int *min_pos);
+void		rotate_to_min(t_stacks *stacks);
+void		ps_lstadd_back(t_lst **lst, t_lst *new_elem);
+int			av_len(char **args);
+void		ps_lstdelone(t_lst *lst);
+void		ps_lstclear(t_lst **lst);
+void		free_values(char **values);
+void		free_stacks(t_stacks *stacks);
+int			exit_error(t_lst **p_a, t_lst **p_b, int i);
 int			ps_strlen(char *str);
+long int	ps_atoi(const char *str);
+void		ps_putstr_fd(char *s, int fd);
+char		*ft_substr(char *s, unsigned int start, size_t len);
+char		*ps_strcat(char *dest, char *src);
+char		**ps_split(char *s, char c);
+void		free_args(char **args);
 
 //	Operations
 void		pa(t_stacks *stacks);
@@ -58,11 +70,12 @@ void		sb(t_stacks *stacks);
 void		ss(t_stacks *stacks);
 
 //	Initializing
-t_lst		*go_bottom(t_lst *pile);
-t_lst		*go_before_bottom(t_lst *pile);
+t_stacks	*init_stacks(void);
+t_stacks	*fill_stack_values(int ac, char **av);
 
 //	Parsing
-int			is_correct_input(char **av);
+int			is_number(const char *str);
+int			has_dup(char **av);
 
 //	Sorting < 3
 void		sort_smaller(t_stacks *stacks);
@@ -86,9 +99,6 @@ void		rotate_to_min(t_stacks *stacks);
 void		sort_full(t_stacks *stacks);
 
 //	Main
-t_stacks	*init_stacks(void);
-int			exit_error(t_lst **p_a, t_lst **p_b, int i);
-void		print_piles(t_stacks *piles);
 int			main(int argc, char **argv);
 
 #endif

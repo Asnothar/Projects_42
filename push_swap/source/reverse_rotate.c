@@ -6,11 +6,20 @@
 /*   By: abeaufil <abeaufil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 14:05:04 by abeaufil          #+#    #+#             */
-/*   Updated: 2025/01/31 13:53:21 by abeaufil         ###   ########.fr       */
+/*   Updated: 2025/02/06 09:05:36 by abeaufil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/push_swap.h"
+
+static t_lst	*go_bottom(t_lst *pile)
+{
+	if (!pile)
+		return (NULL);
+	while (pile->next)
+		pile = pile->next;
+	return (pile);
+}
 
 static void	reverse_rotate(t_stacks *stacks, char stack_name)
 {

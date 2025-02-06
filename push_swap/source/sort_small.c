@@ -6,11 +6,33 @@
 /*   By: abeaufil <abeaufil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 15:22:16 by abeaufil          #+#    #+#             */
-/*   Updated: 2025/01/28 17:55:47 by abeaufil         ###   ########.fr       */
+/*   Updated: 2025/02/06 10:29:05 by abeaufil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/push_swap.h"
+
+void	rotate_to_min(t_stacks *stacks)
+{
+	int	min_value;
+	int	min_pos;
+
+	if (!stacks->p_a || stacks->size_a <= 1)
+		return ;
+	find_min_position(stacks, &min_value, &min_pos);
+	if (min_pos == 0)
+		return ;
+	if (min_pos > stacks->size_a / 2)
+	{
+		while (stacks->p_a->content != min_value)
+			rra(stacks);
+	}
+	else
+	{
+		while (stacks->p_a->content != min_value)
+			ra(stacks);
+	}
+}
 
 void	sort_smaller(t_stacks *stacks)
 {

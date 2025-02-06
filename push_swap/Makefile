@@ -6,23 +6,24 @@
 #    By: abeaufil <abeaufil@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/04 11:47:43 by abeaufil          #+#    #+#              #
-#    Updated: 2025/01/31 14:23:01 by abeaufil         ###   ########.fr        #
+#    Updated: 2025/02/06 09:25:03 by abeaufil         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	= push_swap
 CC		= gcc
-CFLAGS	= -Wall -Werror -Wextra
+CFLAGS	= -Wall -Werror -Wextra -ggdb -gdwarf-3
 
 SRC_PATH = source/
 OBJ_PATH = objet/
 
 SRC		= main.c \
 		swap.c push.c rotate.c reverse_rotate.c \
-		parse.c \
-		sort_small.c full_sort.c\
-		full_cost.c full_move.c full_pos.c \
-		utils.c  stack_utils.c  \
+		parse.c fill_stack.c\
+		sort_small.c \
+		algo_cost.c algo_move.c algo_pos.c algo_sort.c \
+		utils_1.c utils_2.c utils_libft.c utils_split.c \
+		
 		
 
 SRCS	= $(addprefix $(SRC_PATH), $(SRC))
