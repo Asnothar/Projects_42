@@ -6,9 +6,16 @@
 #    By: abeaufil <abeaufil@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/23 14:10:56 by abeaufil          #+#    #+#              #
-#    Updated: 2025/02/20 11:01:45 by abeaufil         ###   ########.fr        #
+#    Updated: 2025/02/28 11:17:14 by abeaufil         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
+RED     = \033[31m
+GREEN   = \033[32m
+YELLOW  = \033[33m
+BLUE    = \033[34m
+CYAN    = \033[36m
+RESET   = \033[0m
 
 NAME	= libft.a
 CC		= cc
@@ -18,6 +25,7 @@ RM		= rm -f
 
 LIBFT_PATH   = sources/sources_libft/
 PRINTF_PATH  = sources/sources_printf/
+GNL_PATH     = sources/sources_GNL/
 OBJ_PATH     = objet/
 
 LIBFT_SRC = \
@@ -39,38 +47,53 @@ PRINTF_SRC = \
 	print_char.c print_hex.c print_pointer.c print_string.c \
 	print_int.c print_unsigned.c
 
+GNL_SRC = get_next_line.c
+
 SRCS        = $(addprefix $(LIBFT_PATH), $(LIBFT_SRC))
 BONUS_SRCS  = $(addprefix $(LIBFT_PATH), $(BONUS))
 PRINTF_SRCS = $(addprefix $(PRINTF_PATH), $(PRINTF_SRC))
+GNL_SRCS    = $(addprefix $(GNL_PATH), $(GNL_SRC))
 
-OBJS        = $(addprefix $(OBJ_PATH), $(SRC:.c=.o))
-BONUS_OBJS  = $(addprefix $(OBJ_PATH), $(BONUS:.c=.o))
-PRINTF_OBJS = $(addprefix $(OBJ_PATH), $(PRINTF_SRC:.c=.o))
+OBJS        = $(patsubst %.c, $(OBJ_PATH)%.o, $(notdir $(SRCS)))
+BONUS_OBJS  = $(patsubst %.c, $(OBJ_PATH)%.o, $(notdir $(BONUS_SRCS)))
+PRINTF_OBJS = $(patsubst %.c, $(OBJ_PATH)%.o, $(notdir $(PRINTF_SRCS)))
+GNL_OBJS    = $(patsubst %.c, $(OBJ_PATH)%.o, $(notdir $(GNL_SRCS)))
 
 HEAD = -I ./header/
 
 all: $(OBJ_PATH) $(NAME)
 
 $(OBJ_PATH):
-	mkdir -p $(OBJ_PATH)
+	@mkdir -p $(OBJ_PATH)
+	@echo "$(YELLOW)📁 Dossier $(OBJ_PATH) créé$(RESET)"
 
 $(OBJ_PATH)%.o: $(LIBFT_PATH)%.c | $(OBJ_PATH)
-	$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@
+	@echo "$(CYAN)🔧 Compilation de $(notdir $<)$(RESET)"
 
 $(OBJ_PATH)%.o: $(PRINTF_PATH)%.c | $(OBJ_PATH)
-	$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@
+	@echo "$(CYAN)🔧 Compilation de $(notdir $<)$(RESET)"
 
-$(NAME): $(OBJS) $(PRINTF_OBJS)
-	$(AR) $(NAME) $(OBJS) $(PRINTF_OBJS)
+$(OBJ_PATH)%.o: $(GNL_PATH)%.c | $(OBJ_PATH)
+	@$(CC) $(CFLAGS) -c $< -o $@
+	@echo "$(CYAN)🔧 Compilation de $(notdir $<)$(RESET)"
+
+$(NAME): $(OBJS) $(PRINTF_OBJS) $(GNL_OBJS)
+	@$(AR) $(NAME) $(OBJS) $(PRINTF_OBJS) $(GNL_OBJS)
+	@echo "$(GREEN)✅ $(NAME) créé avec succès !$(RESET)"
 
 bonus: $(BONUS_OBJS)
-	$(AR) $(NAME) $(BONUS_OBJS)
+	@$(AR) $(NAME) $(BONUS_OBJS)
+	@echo "$(GREEN)✅ libft_bonus créé avec succès !$(RESET)"
 
 clean:
-	$(RM) $(OBJS) $(BONUS_OBJS) $(PRINTF_OBJS)
+	@$(RM) $(OBJS) $(BONUS_OBJS) $(PRINTF_OBJS) $(GNL_OBJS)
+	@echo "$(YELLOW)🧹 Suppression des objets$(RESET)"
 
 fclean: clean
-	$(RM) $(NAME)
-	rm -rf $(OBJ_PATH)
+	@$(RM) $(NAME)
+	@rm -rf $(OBJ_PATH)
+	@echo "$(RED)🗑️  Suppression complète$(RESET)"
 
 re: fclean all

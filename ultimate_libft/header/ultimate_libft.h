@@ -6,17 +6,20 @@
 /*   By: abeaufil <abeaufil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 11:05:35 by abeaufil          #+#    #+#             */
-/*   Updated: 2025/02/20 10:38:59 by abeaufil         ###   ########.fr       */
+/*   Updated: 2025/02/27 16:22:22 by abeaufil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ULTIMATE_LIBFT_H
 # define ULTIMATE_LIBFT_H
 
+# define BUFFER_SIZE 42
+
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdio.h>
 # include <string.h>
+# include <fcntl.h>
 # include <bsd/string.h>
 # include <stdarg.h>
 
@@ -81,5 +84,8 @@ int				print_string(char *s);
 int				print_pointer(unsigned long value);
 int				print_unsigned(unsigned int nb);
 int				print_hex(unsigned int value, int asc);
+
+// GNL
+char			*get_next_line(int fd);
 
 #endif
